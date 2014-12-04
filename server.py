@@ -15,7 +15,7 @@ CLIENT = 'jenny'
 
 app = Flask(__name__)
 
-@app.route('/token')
+@app.route('/token', strict_slashes=False)
 def token():
   account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
   auth_token = os.environ.get("AUTH_TOKEN", AUTH_TOKEN)
@@ -35,7 +35,7 @@ def token():
   # This returns a token to use with Twilio based on the account and capabilities defined above
   return capability.generate()
 
-@app.route('/call', methods=['GET', 'POST'])
+@app.route('/call', methods=['GET', 'POST'], strict_slashes=False)
 def call():
   """ This method routes calls from/to client                  """
   """ Rules: 1. From can be either client:name or PSTN number  """
@@ -60,7 +60,7 @@ def call():
     resp.dial(to, callerId=caller_id)
   return str(resp)
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'], strict_slashes=False)
 def welcome():
   resp = twilio.twiml.Response()
   resp.say("Welcome to Twilio")
