@@ -11,9 +11,10 @@ AUTH_TOKEN = 'YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY'
 APP_SID = 'APZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ'
 
 CALLER_ID = '+12345678901'
-CLIENT = 'jenny'
+PSTN_ENDPOINT = 'jenny'
 
 app = Flask(__name__)
+pstn_endpoint = os.environ.get("PSTN_ENDPOINT", PSTN_ENDPOINT)
 
 @app.route('/token', strict_slashes=False)
 def token():
@@ -41,7 +42,7 @@ def call():
   """ Rules: 1. From can be either client:name or PSTN number  """
   """        2. To value specifies target. When call is coming """
   """           from PSTN, To value is ignored and call is     """
-  """           routed to client named CLIENT                  """
+  """           routed to client from pstn_endpoint            """
   resp = twilio.twiml.Response()
   from_value = request.values.get('From')
   to = request.values.get('To')
@@ -51,7 +52,7 @@ def call():
   caller_id = os.environ.get("CALLER_ID", CALLER_ID)
   if not from_client:
     # PSTN -> client
-    resp.dial(callerId=from_value).client(CLIENT)
+    resp.dial(callerId=from_value).client(pstn_endpoint)
   elif to.startswith("client:"):
     # client -> client
     resp.dial(callerId=from_value).client(to[7:])

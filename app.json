@@ -1,7 +1,7 @@
 {
   "name": "Twilio Mobile Quickstart",
   "description": "A simple Python server to distribute capability tokens and route calls for your mobile app",
-  "repository": "https://github.com/vassjozsef/mobile-quickstart",
+  "repository": "https://github.com/gtrnocswift/mobile-quickstart",
   "logo": "https://static1.twilio.com/packages/company/img/logos_icon_round.png",
   "keywords": [
     "twilio",
@@ -23,6 +23,10 @@
     },
     "CALLER_ID": {
       "description": "Phone number verified with your Twilio Account",
+      "required": true
+    },
+    "PSTN_ENDPOINT": {
+      "description": "Name of client to connect to from PSTN",
       "required": true
     }
   }
